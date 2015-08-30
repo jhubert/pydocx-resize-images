@@ -21,3 +21,18 @@ The quick way::
 
 Usage
 =====
+
+Here is an example of mixin usage:
+
+.. code-block:: python
+
+    from pydocx.export import PyDocXHTMLExporter
+    from pydocxresizeimages import ResizedImagesExportMixin
+
+    class PyDocXHTMLExporterWithResizedImages(ResizedImagesExportMixin, PyDocXHTMLExporter):
+        pass
+
+    docx_path = 'path/to/file/doc.docx'
+    exporter = PyDocXHTMLExporterWithResizedImages(docx_path)
+
+    html = exporter.export()
