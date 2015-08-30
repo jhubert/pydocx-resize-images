@@ -10,8 +10,7 @@ import base64
 from StringIO import StringIO
 
 from PIL import Image
-
-from pydocxresizeimages.util import uri
+from .util import uri
 
 IMAGE_EXTENSIONS_TO_SKIP = ['emf', 'wmf', 'svg']
 IMAGE_FORMATS_TO_GIF_COMPRESS = ['BMP', 'TIFF']

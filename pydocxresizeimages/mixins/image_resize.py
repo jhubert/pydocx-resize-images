@@ -6,9 +6,9 @@ from __future__ import (
     unicode_literals,
 )
 
-from pydocxresizeimages.util.image import get_image_data_and_filename
-from pydocxresizeimages.util.uri import uri_is_external, get_uri_filename
-from pydocxresizeimages.image_resize import ImageResizer
+from ..util.image import get_image_data_and_filename
+from ..util.uri import uri_is_external, get_uri_filename
+from ..image_resize import ImageResizer
 
 
 class ResizedImagesExportMixin(object):

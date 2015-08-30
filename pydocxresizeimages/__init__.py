@@ -1,4 +1,4 @@
-from pydocxresizeimages.mixins.image_resize import ResizedImagesExportMixin
+from .mixins.image_resize import ResizedImagesExportMixin
 
 __all__ = [
     'ResizedImagesExportMixin'
