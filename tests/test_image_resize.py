@@ -190,3 +190,19 @@ class ImageResizerTestCase(TestCase):
         ir.update_filename()
 
         self.assertEqual(ir.filename, 'image2.gif')
+
+    def test_height_and_width_as_pt(self):
+        image_data = get_fixture('image1.png', as_binary=True)
+        ir = ImageResizer(image_data, 'image1.png', '10.7pt', '20.9pt')
+
+        self.assertEqual(ir.width, 14)
+        self.assertEqual(ir.height, 27)
+        self.assertTrue(ir.has_height_and_width())
+
+    def test_height_as_pt_width_as_px(self):
+        image_data = get_fixture('image1.png', as_binary=True)
+        ir = ImageResizer(image_data, 'image1.png', '10.7pt', '20px')
+
+        self.assertEqual(ir.width, 14)
+        self.assertEqual(ir.height, 20)
+        self.assertTrue(ir.has_height_and_width())

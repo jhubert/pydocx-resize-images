@@ -45,3 +45,15 @@ class PyDocXHTMLExporterWithResizedImagesTestCase(TestCase):
         html = self.exporter(docx_file_path).export()
 
         utils.assert_html_equal(html, html_file_content)
+
+    def test_export_docx_to_resized_images_images_width_and_height_as_pt(self):
+        docx_file_path = utils.get_fixture('image_with_pt_dimensions.docx')
+
+        html_file_content = utils.get_fixture(
+            'image_with_pt_dimensions.html',
+            as_binary=True
+        )
+
+        html = self.exporter(docx_file_path).export()
+
+        utils.assert_html_equal(html, html_file_content)

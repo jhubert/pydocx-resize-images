@@ -41,10 +41,22 @@ class ImageResizer(object):
         return bool(self.width and self.height)
 
     def _get_dimension(self, dim):
+        """Process dimension in px and pt format
+        According to http://www.w3.org/TR/CSS21/syndata.html#x39 we can convert pt to px
+        """
+
         if not dim:
             return 0
         try:
-            return int(dim.strip('px'))
+            if dim.strip().endswith('pt'):
+                dim = float(dim.strip('pt'))
+                # convert pt to px
+                dim /= 0.75
+            else:
+                dim = dim.strip('px')
+
+            return int(int(dim))
+
         except ValueError as e:
             raise e
 
