@@ -13,7 +13,7 @@ from ..image_resize import ImageResizer
 
 class ResizedImagesExportMixin(object):
     def get_image_tag(self, image, width=None, height=None):
-        if not image:
+        if self.first_pass or not image:
             return ''
 
         filename = get_uri_filename(image.uri)
