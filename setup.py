@@ -49,7 +49,7 @@ def main():
         zip_safe=False,
         install_requires=[
             'requests>=2.7.0',
-            'Pillow==2.9.0'
+            'Pillow==3.0.0'
         ],
         cmdclass={},
         classifiers=[
