@@ -57,3 +57,15 @@ class PyDocXHTMLExporterWithResizedImagesTestCase(TestCase):
         html = self.exporter(docx_file_path).export()
 
         utils.assert_html_equal(html, html_file_content)
+
+    def test_export_docx_to_resized_images_rotate_image(self):
+        docx_file_path = utils.get_fixture('rotate_image.docx')
+
+        html_file_content = utils.get_fixture(
+            'rotate_image.html',
+            as_binary=True
+        )
+
+        html = self.exporter(docx_file_path).export()
+
+        utils.assert_html_equal(html, html_file_content)

@@ -12,7 +12,7 @@ from ..image_resize import ImageResizer
 
 
 class ResizedImagesExportMixin(object):
-    def get_image_tag(self, image, width=None, height=None):
+    def get_image_tag(self, image, width=None, height=None, **kwargs):
         if self.first_pass or not image:
             return ''
 
@@ -51,4 +51,4 @@ class ResizedImagesExportMixin(object):
             width = image_resizer.width
             height = image_resizer.height
 
-        return super(ResizedImagesExportMixin, self, ).get_image_tag(image, width, height)
+        return super(ResizedImagesExportMixin, self, ).get_image_tag(image, width, height, **kwargs)
