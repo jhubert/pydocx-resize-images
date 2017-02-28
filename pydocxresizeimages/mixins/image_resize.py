@@ -17,7 +17,8 @@ class ResizedImagesExportMixin(object):
             return ''
 
         filename = get_uri_filename(image.uri)
-        if uri_is_external(image.uri):
+        external_image = uri_is_external(image.uri)
+        if external_image:
             image_data, filename = get_image_data_and_filename(
                 image.uri,
                 filename,
@@ -40,12 +41,13 @@ class ResizedImagesExportMixin(object):
         if img_resized:
             image_resizer.update_filename()
 
-            # clear current stream content
-            image.stream.seek(0)
-            image.stream.truncate(0)
+            if not external_image:
+                # clear current stream content
+                image.stream.seek(0)
+                image.stream.truncate(0)
 
-            # replace the image stream with a new resized image
-            image.stream.write(image_resizer.image_data)
+                # replace the image stream with a new resized image
+                image.stream.write(image_resizer.image_data)
 
             width = image_resizer.width
             height = image_resizer.height

@@ -3,7 +3,7 @@ from io import BytesIO
 
 
 class Image(object):
-    def __init__(self, image_data, uri=None):
+    def __init__(self, image_data=None, uri=None):
         self.uri = uri
         self.image_data = image_data
 

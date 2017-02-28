@@ -43,7 +43,16 @@ class ResizedImagesExportMixinTestCase(TestCase):
         uri = 'http://httpbin.org/image/image1.png'
         mock_request(uri, fixture='image1.png')
 
-        img_obj = Image('', uri=uri)
+        img_obj = Image(uri=uri)
+        resizer = ResizedImagesExportMixinSample()
+        result = resizer.get_image_tag(img_obj)
+        self.assertEqual(result, '')
+
+    def test_get_image_tag_has_skippable_extension(self):
+        uri = 'http://httpbin.org/image/image1.svg'
+        mock_request(uri, fixture='image1.png')
+
+        img_obj = Image(uri=uri)
         resizer = ResizedImagesExportMixinSample()
         result = resizer.get_image_tag(img_obj)
         self.assertEqual(result, '')
