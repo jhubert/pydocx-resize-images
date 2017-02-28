@@ -6,12 +6,13 @@ from __future__ import (
 )
 
 from unittest import TestCase
-from StringIO import StringIO
+from io import BytesIO
 
 from PIL import Image
 
 from pydocxresizeimages.image_resize import ImageResizer
 from pydocxresizeimages.test.utils import get_fixture
+from pydocxresizeimages.test.image import PilImageMock
 
 
 class ImageResizerTestCase(TestCase):
@@ -76,14 +77,14 @@ class ImageResizerTestCase(TestCase):
         image_data = get_fixture('image1.png', as_binary=True)
         ir = ImageResizer(image_data, 'image1.png', '100 px', '100 px')
         ir.init_image()
-        self.assertEqual(ir.image, Image.open(StringIO(image_data)))
+        self.assertEqual(ir.image, Image.open(BytesIO(image_data)))
 
     def test_init_image_with_data_should_be_the_same(self):
         image_data = get_fixture('image1.data', as_binary=True)
         ir = ImageResizer(image_data, 'image1.png', '100 px', '100 px')
         ir.init_image()
 
-        png_image = Image.open(StringIO(get_fixture('image1.png', as_binary=True)))
+        png_image = Image.open(BytesIO(get_fixture('image1.png', as_binary=True)))
         self.assertEqual(ir.image, png_image)
 
     def test_init_image_exception(self):
@@ -151,13 +152,18 @@ class ImageResizerTestCase(TestCase):
 
         self.assertEqual(ir.image_format, 'GIF')
 
-        image = Image.open(StringIO(image_data)).resize(
+        image = Image.open(BytesIO(image_data)).resize(
             (50, 50),
             Image.ANTIALIAS
         )
 
-        self.assertEqual(image, ir.image)
         self.assertEqual('image2.tif', ir.filename)
+
+        # There are some issues while comparing 'dpi' value of image even thought the values
+        # are the same. So, we just make sure we convert to float so that comparision pass OK.
+        image.info['dpi'] = map(float, image.info['dpi'])
+        ir.image.info['dpi'] = map(float, ir.image.info['dpi'])
+        self.assertEqual(image, ir.image)
 
     def test_update_filename(self):
         image_data = get_fixture('image1.png', as_binary=True)
@@ -170,10 +176,19 @@ class ImageResizerTestCase(TestCase):
 
         self.assertEqual(ir.filename, 'image1.png')
 
-    def test_update_filename_empty_filename(self):
+    def test_update_filename_empty_filename_with_extension(self):
         image_data = get_fixture('image1.png', as_binary=True)
 
         ir = ImageResizer(image_data, '.png', '48 px', '48 px')
+
+        res = ir.update_filename()
+
+        self.assertIsNone(res)
+
+    def test_update_filename_empty_filename(self):
+        image_data = get_fixture('image1.png', as_binary=True)
+
+        ir = ImageResizer(image_data, '', '48 px', '48 px')
 
         res = ir.update_filename()
 
@@ -206,3 +221,16 @@ class ImageResizerTestCase(TestCase):
         self.assertEqual(ir.width, 14)
         self.assertEqual(ir.height, 20)
         self.assertTrue(ir.has_height_and_width())
+
+    def test_resize_image_raise_exception(self):
+        image_data = get_fixture('image1.png', as_binary=True)
+
+        ir = ImageResizer(image_data, 'image1.png', '48 px', '48 px')
+        ir.image = PilImageMock(
+            size=(50, 50),
+            on_resize_exception=IOError("Invalid image to resize"),
+            on_save_exception=IOError("Invalid image to save")
+        )
+
+        with self.assertRaisesRegexp(IOError, "Invalid image to save"):
+            ir.resize_image()

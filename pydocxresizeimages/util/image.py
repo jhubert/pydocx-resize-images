@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import (
     absolute_import,
+    print_function,
     unicode_literals,
 )
 
@@ -12,12 +13,7 @@ from requests.exceptions import InvalidSchema, MissingSchema
 
 from . import uri
 
-try:
-    # Python 3
-    from urllib.parse import urlparse
-except ImportError:
-    # Python 2
-    from urlparse import urlparse
+from six.moves.urllib.parse import urlparse
 
 
 def get_image_data_and_filename(image_data_or_url, filename=None):

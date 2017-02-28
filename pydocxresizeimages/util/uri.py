@@ -1,4 +1,6 @@
 from __future__ import (
+    absolute_import,
+    print_function,
     unicode_literals,
 )
 
@@ -6,12 +8,7 @@ import re
 import os
 import posixpath
 
-try:
-    # Python 3
-    from urllib.parse import unquote
-except ImportError:
-    # Python 2
-    from urlparse import unquote
+from six.moves.urllib.parse import unquote
 
 IMAGE_DATA_URI_REGEX = re.compile(
     r'data:image/(?P<extension>\w+);base64,(?P<image_data>.+)',

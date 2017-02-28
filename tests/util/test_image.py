@@ -32,6 +32,13 @@ class GetImageDataAndFileNameTestCase(TestCase):
         self.assertEqual('', img_data)
         self.assertEqual('png.png', filename)
 
+    def test_get_image_data_and_filename_empty_filename(self):
+        img_data = ''
+        img_data, filename = image.get_image_data_and_filename(img_data)
+
+        self.assertEqual('', img_data)
+        self.assertEqual('', filename)
+
     @responses.activate
     def test_get_image_from_src_url(self):
         uri = 'http://httpbin.org/image/png'

@@ -10,18 +10,6 @@ from xml.dom import minidom
 
 import responses
 
-try:
-    # Python 3
-    from urllib.parse import urljoin, urlparse
-except ImportError:
-    # Python 2
-    from urlparse import urlparse, urljoin
-
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
-
 
 def prettify(xml_string):
     """Return a pretty-printed XML string for the Element.

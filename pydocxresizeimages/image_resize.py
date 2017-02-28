@@ -7,7 +7,7 @@ from __future__ import (
 )
 
 import base64
-from StringIO import StringIO
+from io import BytesIO
 
 from PIL import Image
 from .util import uri
@@ -66,7 +66,7 @@ class ImageResizer(object):
         if match:
             image_data = base64.b64decode(match.group('image_data'))
         try:
-            self.image = Image.open(StringIO(image_data))
+            self.image = Image.open(BytesIO(image_data))
         except (IOError, SystemError) as e:
             # PIL can't open it, return the image_data as is.
             raise e
@@ -101,7 +101,7 @@ class ImageResizer(object):
         if image_format in IMAGE_FORMATS_TO_GIF_COMPRESS:
             # Convert to gif.
             image_format = 'GIF'
-        output = StringIO()
+        output = BytesIO()
         try:
             self.image.save(output, image_format)
             self.image_data = output.getvalue()

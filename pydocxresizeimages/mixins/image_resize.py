@@ -17,7 +17,6 @@ class ResizedImagesExportMixin(object):
             return ''
 
         filename = get_uri_filename(image.uri)
-
         if uri_is_external(image.uri):
             image_data, filename = get_image_data_and_filename(
                 image.uri,
