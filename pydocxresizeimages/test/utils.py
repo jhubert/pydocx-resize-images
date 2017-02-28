@@ -85,7 +85,12 @@ def get_fixture(fix_name, as_binary=False):
     )
 
     if as_binary:
-        with open(file_path, 'rb') as f:
+        _, ext = os.path.splitext(fix_name)
+        mode = 'r'
+        if ext not in ['.html', '.json']:
+            mode = 'rb'
+
+        with open(file_path, mode) as f:
             return f.read()
     else:
         return file_path

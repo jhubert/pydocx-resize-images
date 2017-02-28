@@ -161,8 +161,9 @@ class ImageResizerTestCase(TestCase):
 
         # There are some issues while comparing 'dpi' value of image even thought the values
         # are the same. So, we just make sure we convert to float so that comparision pass OK.
-        image.info['dpi'] = map(float, image.info['dpi'])
-        ir.image.info['dpi'] = map(float, ir.image.info['dpi'])
+        image.info['dpi'] = tuple(map(float, image.info['dpi']))
+        ir.image.info['dpi'] = tuple(map(float, ir.image.info['dpi']))
+
         self.assertEqual(image, ir.image)
 
     def test_update_filename(self):

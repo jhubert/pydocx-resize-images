@@ -35,6 +35,6 @@ class UriUtilsTestCase(TestCase):
             'image%20%232014.gif': 'image #2014.gif',
         }
 
-        for before, after in filenames.iteritems():
+        for before, after in filenames.items():
 
             self.assertEqual(after, uri.sanitize_filename(before))

@@ -10,15 +10,23 @@ import posixpath
 
 from six.moves.urllib.parse import unquote
 
-IMAGE_DATA_URI_REGEX = re.compile(
-    r'data:image/(?P<extension>\w+);base64,(?P<image_data>.+)',
-)
+regexp_pattern = 'data:image/(?P<extension>\w+);base64,(?P<image_data>.+)'
+
+IMAGE_DATA_URI_REGEX = {
+    'bytes': re.compile(regexp_pattern.encode()),
+    'str': re.compile(regexp_pattern),
+}
 
 
 def is_encoded_image_uri(image_data):
     """Check if input is a image data format"""
 
-    return IMAGE_DATA_URI_REGEX.match(image_data)
+    if isinstance(image_data, bytes):
+        regex = IMAGE_DATA_URI_REGEX['bytes']
+    else:
+        regex = IMAGE_DATA_URI_REGEX['str']
+
+    return regex.match(image_data)
 
 
 def sanitize_filename(filename):
@@ -30,14 +38,6 @@ def sanitize_filename(filename):
     and dash. When images come from docx they are always `image\d+`. We only
     want to strip off the timestamp and dash if they were programmatically
     added.
-    >>> sanitize_filename('1409764011-image1.gif')
-    'image1.gif'
-    >>> sanitize_filename('409764011-image1.gif')
-    '409764011-image1.gif'
-    >>> sanitize_filename('1409764011-image.gif')
-    '1409764011-image.gif'
-    >>> sanitize_filename('image%20%232014.gif')
-    'image #2014.gif'
     """
 
     # (timestamp)-image(image_number).(file_extension)
@@ -45,7 +45,7 @@ def sanitize_filename(filename):
     if regex.match(filename):
         _, filename = filename.rsplit('-', 1)
 
-    return unquote(filename).encode('utf-8')
+    return unquote(filename)
 
 
 def replace_extension(file_path, new_ext):
