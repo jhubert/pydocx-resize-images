@@ -10,7 +10,7 @@ import posixpath
 
 from six.moves.urllib.parse import unquote
 
-regexp_pattern = 'data:image/(?P<extension>\w+);base64,(?P<image_data>.+)'
+regexp_pattern = r'data:image/(?P<extension>\w+);base64,(?P<image_data>.+)'
 
 IMAGE_DATA_URI_REGEX = {
     'bytes': re.compile(regexp_pattern.encode()),
@@ -38,7 +38,7 @@ def sanitize_filename(filename):
     and dash. When images come from docx they are always `image\d+`. We only
     want to strip off the timestamp and dash if they were programmatically
     added.
-    """
+    """ # noqa
 
     # (timestamp)-image(image_number).(file_extension)
     regex = re.compile(r'\d{10}-image\d+\.\w{3,4}')
