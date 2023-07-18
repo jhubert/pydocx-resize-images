@@ -76,6 +76,17 @@ def uri_is_external(uri):
     return not uri_is_internal(uri)
 
 
+def uri_is_self_hosted(uri, bucket_name=''):
+    """
+    >>> uri_is_self_hosted('https://cdn-retailzipline-dev.s3.amazonaws.com/o/zipline/communications/0624df82-6090-4b32-8e57-6a4a96d57ae9/168814738383343-image1.png')
+    True
+    >>> uri_is_self_hosted('http://google/images/image.png')
+    False
+    """
+    s3_bucket_url = "https://%s.s3.amazonaws.com" % (bucket_name)
+    return uri.startswith(s3_bucket_url)
+
+
 def get_uri_filename(uri):
     _, filename = posixpath.split(uri)
 
