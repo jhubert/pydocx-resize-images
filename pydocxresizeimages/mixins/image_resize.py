@@ -13,9 +13,13 @@ from ..image_resize import ImageResizer
 
 class ResizedImagesExportMixin(object):
     def __init__(self, *args, **kwargs):
-        self.s3_bucket = kwargs.pop('s3_bucket', '')
+        self.keep_s3_bucket = kwargs.pop('keep_s3_bucket', False)
+        if self.keep_s3_bucket:
+            self.s3_bucket = kwargs.get('s3_bucket', '')
+        else:
+            self.s3_bucket = kwargs.pop('s3_bucket', '')
+        super(ResizedImagesExportMixin, self).__init__(*args, **kwargs)
 
-        super(ResizedImagesExportMixin, self).__init__(s3_bucket=self.s3_bucket, *args, **kwargs)
 
     def get_image_tag(self, image, width=None, height=None, **kwargs):
         if self.first_pass or not image:
