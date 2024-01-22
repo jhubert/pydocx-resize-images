@@ -78,7 +78,7 @@ def uri_is_external(uri):
 
 def uri_is_self_hosted(uri, bucket_name=''):
     """
-    >>> uri_is_self_hosted('https://cdn-retailzipline-dev.s3.amazonaws.com/o/zipline/communications/0624df82-6090-4b32-8e57-6a4a96d57ae9/168814738383343-image1.png')
+    >>> uri_is_self_hosted('https://cdn-dev.s3.amazonaws.com/o/zipline/communications/1.png', 'cdn-dev')
     True
     >>> uri_is_self_hosted('http://google/images/image.png')
     False

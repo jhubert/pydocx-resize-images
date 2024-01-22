@@ -20,7 +20,6 @@ class ResizedImagesExportMixin(object):
             self.s3_bucket = kwargs.pop('s3_bucket', '')
         super(ResizedImagesExportMixin, self).__init__(*args, **kwargs)
 
-
     def get_image_tag(self, image, width=None, height=None, **kwargs):
         if self.first_pass or not image:
             return ''
