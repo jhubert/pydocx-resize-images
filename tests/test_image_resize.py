@@ -154,7 +154,7 @@ class ImageResizerTestCase(TestCase):
 
         image = Image.open(BytesIO(image_data)).resize(
             (50, 50),
-            Image.ANTIALIAS
+            Image.Resampling.LANCZOS
         )
 
         self.assertEqual('image2.tif', ir.filename)

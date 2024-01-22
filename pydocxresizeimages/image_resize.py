@@ -93,7 +93,7 @@ class ImageResizer(object):
         # compare.
         if (current_area < new_area) and (expected_sizes != self.image.size):
             try:
-                self.image = self.image.resize(expected_sizes, Image.ANTIALIAS)
+                self.image = self.image.resize(expected_sizes, Image.Resampling.LANCZOS)
                 resized = True
             except (IOError, SystemError):
                 # Image can't be resized, such is life.
